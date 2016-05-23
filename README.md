@@ -132,7 +132,7 @@ We want to offer the flexibility to download any model using Ransack and only de
 
 HTML
 ```
-<a target='_sef' href='/some/path?{{ransackParams(q)}}'>
+<a target='_self' href='/some/path?{{ransackParams(q)}}'>
 ```
 
 Angular controller
