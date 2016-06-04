@@ -8,7 +8,14 @@ module ActiveRecordCsvExtension
 
   # Take an instance and turn it into an array using the csv columns specified at the class level
   def to_csv
-     self.class.csv_methods.collect {|method| try(method) || try_association_methods(method)  }
+     self.class.csv_methods.collect do |method| 
+        result = try(method) || try_association_methods(method)
+        if result && result.is_a?(String)
+            ' + result + '
+        else
+            result
+        end
+    end
   end
 
   ##
