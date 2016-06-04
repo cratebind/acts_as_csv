@@ -8,7 +8,7 @@ module ActiveRecordCsvExtension
 
   # Take an instance and turn it into an array using the csv columns specified at the class level
   def to_csv
-     self.class.csv_columns.collect {|method| try(method) || try_association_methods(method)  }
+     self.class.csv_methods.collect {|method| try(method) || try_association_methods(method)  }
   end
 
   ##
@@ -27,6 +27,14 @@ module ActiveRecordCsvExtension
 
   # add your static(class) methods here
   module ClassMethods
+    
+    def csv_methods
+      columns = column_names + belongs_to_associations + has_one_associations + has_many_associations + optional_csv_attributes - filter_names
+      columns.compact!
+      columns.uniq!
+      columns.flatten!
+      columns    
+    end
     
     ##
     # Array of methods that we will export out of a model object.  Also used as the header row for the CSV file
