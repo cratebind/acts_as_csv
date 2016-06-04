@@ -41,7 +41,7 @@ module ActiveRecordCsvExtension
     # Remove the period from the column header tags for associations
     def association_column_headers
         associations = belongs_to_associations + has_one_associations + has_many_associations
-        associations.collect { |x| x.gsub('.','_') } 
+        associations.collect { |x| x.try(:gsub, '.','_') } 
     end
 
     ##
