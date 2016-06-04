@@ -11,7 +11,7 @@ module ActiveRecordCsvExtension
      self.class.csv_methods.collect do |method| 
         result = try(method) || try_association_methods(method)
         if result && result.is_a?(String)
-            ' + result + '
+            "'#{result}'"
         else
             result
         end
