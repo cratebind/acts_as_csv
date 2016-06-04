@@ -1,4 +1,3 @@
-
 require 'active_record'
 ##
 # Extend the ability to create csv from ActiveRecord models
@@ -32,11 +31,17 @@ module ActiveRecordCsvExtension
     ##
     # Array of methods that we will export out of a model object.  Also used as the header row for the CSV file
     def csv_columns
-      columns = column_names + belongs_to_associations + has_one_associations + has_many_associations + optional_csv_attributes - filter_names
+      columns = column_names + association_column_headers + optional_csv_attributes - filter_names
       columns.compact!
       columns.uniq!
       columns.flatten!
       columns
+    end
+    
+    # Remove the period from the column header tags for associations
+    def association_column_headers
+        associations = belongs_to_associations + has_one_associations + has_many_associations
+        associations.collect { |x| x.gsub('.','_') } 
     end
 
     ##
